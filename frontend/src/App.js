@@ -7,63 +7,115 @@ const App = () => {
   const [title, setTitle] = useState('');
   const [filter, setFilter] = useState('All');
   const [darkMode, setDarkMode] = useState(false);
-  const [editingId, setEditingId] = useState(null); // Track which todo is being edited
-  const [editTitle, setEditTitle] = useState('');   // Store the edited title
+  const [editingId, setEditingId] = useState(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [token, setToken] = useState(null);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const API_URL = 'https://lumpia-todo.onrender.com/api/todos/';
+  const LOGIN_URL = 'https://lumpia-todo.onrender.com/api-token-auth/';
 
-  // Fetch todos
-  useEffect(() => {
-    axios.get(API_URL).then((response) => setTodos(response.data));
-  }, []);
-
-  // Add a todo
-  const addTodo = () => {
-    if (title.trim()) {
-      axios.post(API_URL, { title, completed: false }).then((response) => {
-        setTodos([response.data, ...todos]);
-        setTitle('');
-      });
+  // Login function
+  const login = async () => {
+    try {
+      const response = await axios.post(LOGIN_URL, { username, password });
+      setToken(response.data.token);
+      localStorage.setItem('token', response.data.token); // Persist token
+      setUsername('');
+      setPassword('');
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert('Login failed!');
     }
   };
 
-  // Toggle completion
+  // Axios config with token
+  const axiosConfig = token ? {
+    headers: { Authorization: `Token ${token}` }
+  } : {};
+
+  // Fetch todos
+  useEffect(() => {
+    const savedToken = localStorage.getItem('token');
+    if (savedToken) setToken(savedToken);
+
+    if (token) {
+      axios.get(API_URL, axiosConfig)
+        .then((response) => setTodos(response.data))
+        .catch((error) => console.error('Fetch todos failed:', error));
+    }
+  }, [token]);
+
+  // CRUD functions
+  const addTodo = () => {
+    if (title.trim() && token) {
+      axios.post(API_URL, { title, completed: false }, axiosConfig)
+        .then((response) => {
+          setTodos([response.data, ...todos]);
+          setTitle('');
+        });
+    }
+  };
+
   const toggleTodo = (id, completed) => {
-    axios.patch(`${API_URL}${id}/`, { completed: !completed }).then((response) => {
-      setTodos(todos.map((todo) => (todo.id === id ? response.data : todo)));
-    });
+    if (token) {
+      axios.patch(`${API_URL}${id}/`, { completed: !completed }, axiosConfig)
+        .then((response) => {
+          setTodos(todos.map((todo) => (todo.id === id ? response.data : todo)));
+        });
+    }
   };
 
-  // Delete a todo
   const deleteTodo = (id) => {
-    axios.delete(`${API_URL}${id}/`).then(() => {
-      setTodos(todos.filter((todo) => todo.id !== id));
-    });
+    if (token) {
+      axios.delete(`${API_URL}${id}/`, axiosConfig)
+        .then(() => setTodos(todos.filter((todo) => todo.id !== id)));
+    }
   };
 
-  // Start editing a todo
   const startEditing = (id, currentTitle) => {
     setEditingId(id);
     setEditTitle(currentTitle);
   };
 
-  // Save edited todo
   const saveEdit = (id) => {
-    if (editTitle.trim()) {
-      axios.patch(`${API_URL}${id}/`, { title: editTitle }).then((response) => {
-        setTodos(todos.map((todo) => (todo.id === id ? response.data : todo)));
-        setEditingId(null); // Exit editing mode
-        setEditTitle('');   // Clear edit input
-      });
+    if (editTitle.trim() && token) {
+      axios.patch(`${API_URL}${id}/`, { title: editTitle }, axiosConfig)
+        .then((response) => {
+          setTodos(todos.map((todo) => (todo.id === id ? response.data : todo)));
+          setEditingId(null);
+          setEditTitle('');
+        });
     }
   };
 
-  // Filter todos
   const filteredTodos = todos.filter((todo) => {
     if (filter === 'Completed') return todo.completed;
     if (filter === 'Pending') return !todo.completed;
     return true;
   });
+
+  if (!token) {
+    return (
+      <div className={`app ${darkMode ? 'dark' : ''}`}>
+        <h1>Lumpia To-Do List - Login</h1>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <button onClick={login}>Login</button>
+      </div>
+    );
+  }
 
   return (
     <div className={`app ${darkMode ? 'dark' : ''}`}>
