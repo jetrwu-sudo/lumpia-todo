@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-c$(*c57rrmbkqq0896cb@p#n!)3cq)^3ghll6e_*j%ds#v%6q#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lumpia-todo.onrender.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
