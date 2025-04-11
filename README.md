@@ -24,5 +24,7 @@ A full-stack To-Do List with a Lumpia-themed React frontend and Django REST API 
 3. `npm start`
 
 ## Deployment
-- Backend: https://lumpia-todo.onrender.com
+- Backend: 
+https://lumpia-todo.onrender.com
+https://lumpia-todo.onrender.com/api/todos/
 - Frontend: https://lumpia-todo.vercel.app
