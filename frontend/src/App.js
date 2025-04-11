@@ -10,7 +10,7 @@ const App = () => {
   const [editingId, setEditingId] = useState(null); // Track which todo is being edited
   const [editTitle, setEditTitle] = useState('');   // Store the edited title
 
-  const API_URL = 'http://localhost:8000/api/todos/'; // Update to your Render URL for deployment
+  const API_URL = 'https://lumpia-todo.onrender.com/api/todos/';
 
   // Fetch todos
   useEffect(() => {
