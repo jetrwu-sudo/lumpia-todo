@@ -1,0 +1,124 @@
+/* Import a fun, handwritten font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+.app {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  font-family: 'Patrick Hand', cursive; /* Playful font */
+  background: #F5E8C7; /* Creamy beige background */
+  border: 5px solid #D4A017; /* Golden brown border like lumpia wrapper */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode with a darker lumpia vibe */
+.dark {
+  background: #4A7043; /* Dark green like lumpia filling */
+  color: #F5E8C7; /* Creamy text */
+  border-color: #A67B0F; /* Darker golden brown */
+}
+
+/* Heading styled like a recipe title */
+h1 {
+  color: #D4A017; /* Golden brown */
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.dark h1 {
+  color: #F5E8C7; /* Creamy text in dark mode */
+}
+
+/* Input styled like a recipe ingredient line */
+input {
+  padding: 8px;
+  margin-right: 10px;
+  border: 2px solid #4A7043; /* Green border */
+  border-radius: 5px;
+  font-size: 1.2em;
+  background: #FFF8E1; /* Light cream */
+  width: 70%;
+}
+
+/* Edit input styling */
+.edit-input {
+  width: 50%;
+  margin-right: 10px;
+  font-family: 'Patrick Hand', cursive;
+}
+
+/* Buttons styled like little lumpia rolls */
+button {
+  padding: 8px 15px;
+  margin: 5px;
+  background: #D4A017; /* Golden brown */
+  color: white;
+  border: none;
+  border-radius: 20px; /* Rounded like lumpia */
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #A67B0F; /* Darker golden brown */
+}
+
+.dark button {
+  background: #A67B0F; /* Darker lumpia tone */
+}
+
+.dark button:hover {
+  background: #D4A017; /* Lighter golden brown */
+}
+
+/* Todo list styled like recipe steps */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  padding: 10px;
+  background: #FFF8E1; /* Light cream background */
+  border: 2px dashed #4A7043; /* Dashed green like a recipe note */
+  border-radius: 10px;
+}
+
+.dark li {
+  background: #5E8A54; /* Slightly lighter green */
+  border-color: #F5E8C7; /* Creamy dashed border */
+}
+
+/* Checkbox for completion */
+li input[type="checkbox"] {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Todo text */
+li span {
+  flex-grow: 1;
+  font-size: 1.3em;
+  color: #4A7043; /* Green text */
+}
+
+.dark li span {
+  color: #F5E8C7; /* Creamy text in dark mode */
+}
+
+/* Strikethrough for completed tasks */
+li span[style*="line-through"] {
+  color: #A67B0F; /* Darker gold for completed */
+}
+
+.dark li span[style*="line-through"] {
+  color: #D4A017; /* Golden brown in dark mode */
+}
